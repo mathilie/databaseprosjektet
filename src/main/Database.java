@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.sql.Connection;
 
 
@@ -35,7 +36,42 @@ public class Database {
 	public static final String TRENINGSØKTMAL = "treningsøktmal(mal_ID, navn)";
 	public static final String UTENDØRS = "utendørs(treningsøkt_ID, temperatur, værtyper)";
 	
-
+	
+	
+	
+	//TODO: skrive getøvelser og sånnt slik at folka kan skrive riktige spørsmål. Deretter addTreningsøkt metoder med inputliste med øvelser.
+	
+	public List<String> getØvelser(){
+		return null;
+	}
+	
+	
+	public List<String> getKategorier(){
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//---------------------Metoder fra PU-----------------------------------
 
 	public void insert(String tableName, String[] args){
 		try{
