@@ -16,6 +16,24 @@ public class Database {
 	private String url = "jdbc:mysql://localhost/prosjekt"; 
 	private String user = "root";
 	private String pw = "123";
+
+	
+	public static final String ØVELSE = "øvelse(øvelse_ID, nacn, beskrivelse)";
+	public static final String ØVELSE_K = "øvelse_kondisjon(kondisjons_ID, lengde, tid)";
+	public static final String ØVELSE_S = "øvelse_styrke(styrke_ID, repetisjoner, sett)";
+	public static final String ØVELSESHARKATEGORI = "øvelseharkategori(øvelse_ID, kategori_ID)";
+	public static final String INNENDØRS = "innendørs(treningsøkt_ID, luft, ventilasjon,antall tilskuere)";
+	public static final String KATEGORI = "kategori(kategori_ID)";
+	public static final String KATEGORI_S = "kategori_styrke(kroppsdel_ID, kroppsdel)";
+	public static final String KONDISJONSØKTHARØVELSE = "kondisjonsøktharøvelse(resultat, kondisjonsøkt_ID, kondisjonsøvelse_ID)";
+	public static final String LAGDUTFRA = "lagdutfra(treningsøkt_ID, mal_ID))";
+	public static final String MALHARØVELSE = "malharøvelse(mal_ID, maløvelse_ID)";
+	public static final String NOTAT = "notat(treningstips, treningsformål, treningsøkt_ID)";
+	public static final String PULS = "puls-og gps-informasjon(treningsøkt_ID, puls, lengdegrad, breddegrad, meter over havet, tid)";
+	public static final String STYRKEØKTHARØVELSE = "styrkeøktharøvelse(styrkeøkt, styrkeøvelse, resultat)";
+	public static final String TRENINGSØKT = "treningsøkt(treningsøkt_ID, dato, tidspunkt, varighet, dagsform)";
+	public static final String TRENINGSØKTMAL = "treningsøktmal(mal_ID, navn)";
+	public static final String UTENDØRS = "utendørs(treningsøkt_ID, temperatur, værtyper)";
 	
 
 
