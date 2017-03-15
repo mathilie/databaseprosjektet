@@ -19,7 +19,7 @@ public class Database {
 	private String pw = "123";
 
 	
-	public static final String ØVELSE = "øvelse(øvelse_ID, nacn, beskrivelse)";
+	public static final String ØVELSE = "øvelse(øvelse_ID, navn, beskrivelse)";
 	public static final String ØVELSE_K = "øvelse_kondisjon(kondisjons_ID, lengde, tid)";
 	public static final String ØVELSE_S = "øvelse_styrke(styrke_ID, repetisjoner, sett)";
 	public static final String ØVELSESHARKATEGORI = "øvelseharkategori(øvelse_ID, kategori_ID)";
@@ -35,35 +35,109 @@ public class Database {
 	public static final String TRENINGSØKT = "treningsøkt(treningsøkt_ID, dato, tidspunkt, varighet, dagsform)";
 	public static final String TRENINGSØKTMAL = "treningsøktmal(mal_ID, navn)";
 	public static final String UTENDØRS = "utendørs(treningsøkt_ID, temperatur, værtyper)";
-	
+	public static final String KATEGORI_K = "kategori_kondisjon(kategori_ID, intensitet)";
 	
 	
 	
 	//TODO: skrive getøvelser og sånnt slik at folka kan skrive riktige spørsmål. Deretter addTreningsøkt metoder med inputliste med øvelser.
 	
+	
+	//----------------GET SHIT------------------------
 	public List<String> getØvelser(){
+		try {
+		connect();
+		Statement s = con.createStatement();
+		String query = "SELECT øvelse_ID navn FROM "+ØVELSE+";";
+		ResultSet rs = s.executeQuery(query);
+		ArrayList<String> returnList = new ArrayList<String>();
+		while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
+		return returnList;
+		} catch (SQLException e) {e.printStackTrace();
+		} finally {
+			close();
+		}
 		return null;
 	}
 	
+	public List<String> getØkter(){
+		try {
+		connect();
+		Statement s = con.createStatement();
+		String query = "SELECT treningsøkt_ID FROM "+TRENINGSØKT+";";
+		ResultSet rs = s.executeQuery(query);
+		ArrayList<String> returnList = new ArrayList<String>();
+		while (rs.next()) returnList.add(rs.getString(1));
+		return returnList;
+		} catch (SQLException e) {e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
 	
 	public List<String> getKategorier(){
 		return null;
 	}
 	
+	public List<String> getNotat(int treningsøktID){
+		try {
+		connect();
+		Statement s = con.createStatement();
+		String query = "SELECT * FROM "+NOTAT+" WHERE treningsøkt_ID="+treningsøktID+";";
+		ResultSet rs = s.executeQuery(query);
+		ArrayList<String> returnList = new ArrayList<String>();
+		while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
+		return returnList;
+		} catch (SQLException e) {e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
 	
 	
 	
 	
+	// ------------------LAGE ØKTER-----------------------
+	public void lagStyrkeØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] øvelser, String[] resultater){
+		String treningsID = lagTrening(dato, tidspunkt, varighet, dagsform);
+		if(øvelser.length==resultater.length){
+			for(int i=0;i<øvelser.length;i++) insert(STYRKEØKTHARØVELSE, new String[] {treningsID, øvelser[i],resultater[i]});
+		}
+	}
+	
+	public void lagInnendørsØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] øvelser, String[] resultater, String luft, String ventilasjon, String tilskuere){
+		String treningsID = lagTrening(dato, tidspunkt, varighet, dagsform);
+		if(øvelser.length==resultater.length){
+			for(int i=0;i<øvelser.length;i++) insert(KONDISJONSØKTHARØVELSE, new String[] {resultater[i],treningsID, øvelser[i]});
+		}
+		insert(INNENDØRS, new String[] {treningsID, luft,ventilasjon, tilskuere});
+	}
+	
+	public void lagUtendørsøktØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] øvelser, String[] resultater, String temp, String vær){
+		String treningsID = lagTrening(dato, tidspunkt, varighet, dagsform);
+		if(øvelser.length==resultater.length){
+			for(int i=0;i<øvelser.length;i++) insert(KONDISJONSØKTHARØVELSE, new String[] {resultater[i],treningsID, øvelser[i]});
+		}
+		insert(UTENDØRS, new String[] {treningsID, temp, vær});
+	}
+	
+	
+	private String lagTrening(String dato, String tidspunkt, String varighet, String dagsform){
+		insert(TRENINGSØKT, new String[] {dato, tidspunkt, varighet, dagsform});
+		List<String> økter = getØkter();
+		String treningsID = økter.get(økter.size()-1);
+		return treningsID;
+	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
+	private String lagØvelse(String navn, String beskrivelse){
+		insert(ØVELSE, new String[] {navn, beskrivelse});
+		List<String> økter = getØvelser();
+		String treningsID = økter.get(økter.size()-2);
+		return treningsID;
+	}
 	
 	
 	
@@ -196,13 +270,13 @@ public class Database {
 		  }
 	}
 	
-	
+/*	
 	/**
 	 * testing method.
-	 */
+	 *
 	public static void main(String[] args) {
 		Database sdc = new Database();
 		sdc.testConnection();
 	}
-
+*/
 }
