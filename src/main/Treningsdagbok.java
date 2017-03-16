@@ -147,23 +147,40 @@ public class Treningsdagbok {
 		String varighet = s.next();
 		System.out.println("\n Legg til dagsform:\n");
 		String dagsform = s.next();
-		System.out.println("\n Legg til luft:\n");
-		String luft = s.next();
-		System.out.println("\n Legg til ventilasjon:\n");
-		String ventilasjon = s.next();
-		System.out.println("\n Legg til antall tilskuere:\n");
-		String tilskuere = s.next();
-		System.out.println("\n Er dette en :\n");
+		System.out.println("\n Legg til Øvelser:\n");
+		String Øvelser = s.next();
+		System.out.println("\n Legg til resultater:\n");
+		String resultater = s.next();
+		System.out.println("\n Legg til temperatur:\n");
+		String temp = s.next();
+		System.out.println("\n Legg til vær:\n");
+		String vØr = s.next();
+		System.out.println("\n Legg til Sork:\n");
 		int SorK = Sork();
-		List<List<String>> øvOgRes = øvelser();
+		
+		db.lagUtendØrsØktØkt(dato, tidspunkt, varighet, dagsform, Øvelser, resultater, temp, vØr, SorK);
+
 	}
 	
 	
 
 
 	private void lagMal() {
-		// TODO Auto-generated method stub
-		
+	System.out.println("Her er alle dine treningsøkter:");
+	System.out.println("_______________________________");
+	List<String> alleØkter = db.getØkter();
+	for (int j = 0; j < alleØkter.size(); j++) {
+		System.out.println("|Økt nummer: " + j + "|\tØvelser: ");
+		List<String> enØkt = db.getØvelser(alleØkter.get(j));
+		for (int i = 0; i < enØkt.size(); i += 2) {
+			System.out.print(enØkt.get(i+1)+ "\t");
+		}
+	}
+	System.out.println("Velg nummereret til den treningsøkten du vil ha som mal.");
+	String treningsID = s.next();
+	System.out.println("Lag navn på din trenings mal.");
+	String navn = s.next();
+	db.lagMal(treningsID, navn);
 	}
 
 
