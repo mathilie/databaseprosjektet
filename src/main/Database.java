@@ -14,10 +14,11 @@ import java.sql.Connection;
 
 public class Database {
 	private Connection con  =  null;
-	private String url = "jdbc:mysql://localhost/prosjekt"; 
+	private String url = "jdbc:mysql://localhost/prosjekt";
 	private String user = "root";
 	private String pw = "123";
 
+<<<<<<< Updated upstream
 	
 	
 	public static final String ØVELSE = "øvelse(øvelse_ID, navn, beskrivelse)";
@@ -79,13 +80,48 @@ public class Database {
 	
 	public String[] getPuls(String treningsID){
 		return getList(PULS, "treningsøkt_ID", treningsID, "*");
+=======
+
+	public static final String  ØVELSE = "Øvelse(Øvelse_ID, navn, beskrivelse)";
+	public static final String ØVELSE_K = "Øvelse_kondisjon(kondisjons_ID, lengde, tid)";
+	public static final String ØVELSE_S = "Øvelse_styrke(styrke_ID, repetisjoner, sett)";
+	public static final String ØVELSESHARKATEGORI = "Øvelseharkategori(Øvelse_ID, kategori_ID)";
+	public static final String INNENDØRS = "innendØrs(treningsØkt_ID, luft, ventilasjon,antall tilskuere)";
+	public static final String KATEGORI = "kategori(kategori_ID)";
+	public static final String KATEGORI_S = "kategori_styrke(kroppsdel_ID, kroppsdel)";
+	public static final String KONDISJONSØKTHARØVELSE = "kondisjonsØktharØvelse(resultat, kondisjonsØkt_ID, kondisjonsØvelse_ID)";
+	public static final String LAGDUTFRA = "lagdutfra(treningsØkt_ID, mal_ID))";
+	public static final String MALHARØVELSE = "malharØvelse(mal_ID, malØvelse_ID)";
+	public static final String NOTAT = "notat(treningstips, treningsformØl, treningsØkt_ID)";
+	public static final String PULS = "puls-og gps-informasjon(treningsØkt_ID, puls, lengdegrad, breddegrad, meter over havet, tid)";
+	public static final String STYRKEØKTHARØVELSE = "styrkeØktharØvelse(styrkeØkt, styrkeØvelse, resultat)";
+	public static final String TRENINGSØKT = "treningsØkt(treningsØkt_ID, dato, tidspunkt, varighet, dagsform)";
+	public static final String TRENINGSØKTMAL = "treningsØktmal(mal_ID, navn)";
+	public static final String UTENDØRS = "utendØrs(treningsØkt_ID, temperatur, vØrtyper)";
+	public static final String KATEGORI_K = "kategori_kondisjon(kategori_ID, intensitet)";
+
+
+
+	//TODO: skrive getØvelser og sØnnt slik at folka kan skrive riktige spØrsmØl. Deretter addTreningsØkt metoder med inputliste med Øvelser.
+
+
+	//----------------GET SHIT------------------------
+
+
+	public String[] getPuls(String treningsID){
+		return getList(PULS, "treningsØkt_ID", treningsID, "*");
+>>>>>>> Stashed changes
 	}
-	
+
 	public String[] getNotat(String treningsID){
+<<<<<<< Updated upstream
 		return getList(NOTAT,"treningsøkt_ID", treningsID, "*");
+=======
+		return getList(NOTAT,"treningsØkt_ID", treningsID, "*");
+>>>>>>> Stashed changes
 	}
-	
-	
+
+
 	public List<String> getMaler() {
 		try {
 			connect();
@@ -101,13 +137,22 @@ public class Database {
 			}
 			return null;
 	}
+<<<<<<< Updated upstream
 	
 	//Get alle Øvelser
+=======
+
+
+>>>>>>> Stashed changes
 	public List<String> getØvelser(){
 		try {
 		connect();
 		Statement s = con.createStatement();
+<<<<<<< Updated upstream
 		String query = "SELECT øvelse_ID navn FROM "+ØVELSE.split("(")[0]+";";
+=======
+		String query = "SELECT Øvelse_ID navn FROM "+ØVELSE.split("(")[0]+";";
+>>>>>>> Stashed changes
 		ResultSet rs = s.executeQuery(query);
 		ArrayList<String> returnList = new ArrayList<String>();
 		while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
@@ -118,14 +163,22 @@ public class Database {
 		}
 		return null;
 	}
+<<<<<<< Updated upstream
 	
 	
 	//alle Øvelser 
+=======
+
+>>>>>>> Stashed changes
 	public List<String> getØvelser(String treningsID){
 		try {
 			connect();
 			Statement s = con.createStatement();
+<<<<<<< Updated upstream
 			String query = "SELECT øvelse_ID navn FROM "+ØVELSE.split("(")[0]+" WHERE trenings_ID= "+treningsID+";";
+=======
+			String query = "SELECT Øvelse_ID navn FROM "+ØVELSE.split("(")[0]+" WHERE trenings_ID= "+treningsID+";";
+>>>>>>> Stashed changes
 			ResultSet rs = s.executeQuery(query);
 			ArrayList<String> returnList = new ArrayList<String>();
 			while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
@@ -136,12 +189,20 @@ public class Database {
 			}
 			return null;
 	}
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	public List<String> getØkter(){
 		try {
 		connect();
 		Statement s = con.createStatement();
+<<<<<<< Updated upstream
 		String query = "SELECT treningsøkt_ID FROM "+TRENINGSØKT.split("(")[0]+";";
+=======
+		String query = "SELECT treningsØkt_ID FROM "+TRENINGSØKT.split("(")[0]+";";
+>>>>>>> Stashed changes
 		ResultSet rs = s.executeQuery(query);
 		ArrayList<String> returnList = new ArrayList<String>();
 		while (rs.next()) returnList.add(rs.getString(1));
@@ -152,16 +213,24 @@ public class Database {
 		}
 		return null;
 	}
-	
+
 	public List<String> getKategorier(){
 		return null;
 	}
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	public List<String> getNotat(int treningsØktID){
 		try {
 		connect();
 		Statement s = con.createStatement();
+<<<<<<< Updated upstream
 		String query = "SELECT * FROM "+NOTAT.split("(")[0]+" WHERE treningsøkt_ID="+treningsØktID+";";
+=======
+		String query = "SELECT * FROM "+NOTAT.split("(")[0]+" WHERE treningsØkt_ID="+treningsØktID+";";
+>>>>>>> Stashed changes
 		ResultSet rs = s.executeQuery(query);
 		ArrayList<String> returnList = new ArrayList<String>();
 		while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
@@ -172,11 +241,12 @@ public class Database {
 		}
 		return null;
 	}
-	
-	
-	
-	
+
+
+
+
 	/*****************************************************
+<<<<<<< Updated upstream
 	 * 
 	 * LAGE ØKTER
 	 * 
@@ -197,10 +267,22 @@ public class Database {
 		insert(PULS, new String[]{treningsØkt_ID, puls, lengdegrad, breddegrad, moh, tid});
 	}
 	
+=======
+	 *
+	 * LAGE ØKTER
+	 *
+	 *
+	 *****************************************************/
+
+	public void settPulsData(String treningsØkt_ID, String puls, String lengdegrad, String breddegrad,String moh,String tid){
+		insert(PULS, new String[]{treningsØkt_ID, puls, lengdegrad, breddegrad, moh, tid});
+	}
+
+>>>>>>> Stashed changes
 	public void lagNotat(String treningsID, String tips,String formØl){
 		insert(NOTAT,new String[] {tips, formØl,treningsID});
 	}
-	
+
 	public void lagMal(String treningsID, String navn){
 		insert(TRENINGSØKTMAL, new String[] {navn});
 		List<String> maler = getMaler();
@@ -210,22 +292,35 @@ public class Database {
 		for(int i=0;i<Øvelser.size();i+=2) insert(MALHARØVELSE,  new String[] {malID,Øvelser.get(i)});
 	}
 
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	public void lagStyrkeØvelse(String navn, String beskrivelse, String repetisjoner, String sett){
 		String id = lagØvelse(navn, beskrivelse);
 		insert(ØVELSE_S, new String[] {id,repetisjoner, sett});
 	}
+<<<<<<< Updated upstream
 	
+=======
+
+>>>>>>> Stashed changes
 	public void lagKondisjonsØvelse(String navn, String beskrivelse, String lengde, String tid){
 		String id = lagØvelse(navn, beskrivelse);
 		insert(ØVELSE_K, new String[] {id, lengde, tid});
 	}
 
+<<<<<<< Updated upstream
 /*	public void lagStyrkeØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] Øvelser, String[] resultater){
+=======
+	public void lagStyrkeØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] Øvelser, String[] resultater){
+>>>>>>> Stashed changes
 		String treningsID = lagTrening(dato, tidspunkt, varighet, dagsform);
 		if(Øvelser.length==resultater.length){
 			for(int i=0;i<Øvelser.length;i++) insert(STYRKEØKTHARØVELSE, new String[] {treningsID, Øvelser[i],resultater[i]});
 		}
+<<<<<<< Updated upstream
 	}*/
 	
 	public void lagInnendØrsØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] Øvelser, String[] resultater, String luft, String ventilasjon, String tilskuere, int SorK){
@@ -242,11 +337,27 @@ public class Database {
 		if(Øvelser.length==resultater.length){
 			if(SorK==KONDISJON) for(int i=0;i<Øvelser.length;i++) insert(KONDISJONSØKTHARØVELSE, new String[] {resultater[i],treningsID, Øvelser[i]});
 			if(SorK==STYRKE) for(int i=0;i<Øvelser.length;i++) insert(STYRKEØKTHARØVELSE, new String[] {resultater[i],treningsID, Øvelser[i]});
+=======
+	}
+
+	public void lagInnendørsØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] Øvelser, String[] resultater, String luft, String ventilasjon, String tilskuere){
+		String treningsID = lagTrening(dato, tidspunkt, varighet, dagsform);
+		if(Øvelser.length==resultater.length){
+			for(int i=0;i<Øvelser.length;i++) insert(KONDISJONSØKTHARØVELSE, new String[] {resultater[i],treningsID, Øvelser[i]});
+		}
+		insert(INNENDØRS, new String[] {treningsID, luft,ventilasjon, tilskuere});
+	}
+
+	public void lagUtendØrsØktØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] Øvelser, String[] resultater, String temp, String vØr){
+		String treningsID = lagTrening(dato, tidspunkt, varighet, dagsform);
+		if(Øvelser.length==resultater.length){
+			for(int i=0;i<Øvelser.length;i++) insert(KONDISJONSØKTHARØVELSE, new String[] {resultater[i],treningsID, Øvelser[i]});
+>>>>>>> Stashed changes
 		}
 		insert(UTENDØRS, new String[] {treningsID, temp, vØr});
 	}
-	
-	
+
+
 	private String lagTrening(String dato, String tidspunkt, String varighet, String dagsform){
 		insert(TRENINGSØKT, new String[] {dato, tidspunkt, varighet, dagsform});
 		List<String> Økter = getØkter();
@@ -254,25 +365,30 @@ public class Database {
 		return treningsID;
 	}
 	
+<<<<<<< Updated upstream
 	
 	
+=======
+
+
+>>>>>>> Stashed changes
 	private String lagØvelse(String navn, String beskrivelse){
 		insert(ØVELSE, new String[] {navn, beskrivelse});
 		List<String> Øvelser = getØvelser();
 		String ØvelsesID = Øvelser.get(Øvelser.size()-2);
 		return ØvelsesID;
 	}
-	
 
-	
-	
-	
-	
+
+
+
+
+
 	/*************************************************************************
 	---------------------Metoder fra PU-----------------------------------
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @param tableName
 	 * @param args
 	 **************************************************************************/
@@ -286,7 +402,7 @@ public class Database {
 			for (String arg:args) values+=arg+",";
 			values = values.substring(0, values.length()-1);
 			String query = "INSERT INTO "+tableName+" VALUES "+values+");";
-			
+
 			s.execute(query);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -296,7 +412,7 @@ public class Database {
 			close();
 		}
 	}
-	
+
 
 	public double getAverage(String table, String idColumn, int id){
 		String query = "SELECT AVG(ranking) FROM "+table+" WHERE " +idColumn+"="+id;
@@ -314,12 +430,12 @@ public class Database {
 	public int getInt(String from, String what, String condition1, String condition2){
 		return 0;
 	}
-	
+
 	public String getString(String from, String what, String Condition1,String Condition2){
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * Sends a query which returns a list.
 	 * @param table
@@ -353,9 +469,9 @@ public class Database {
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Used by testclass to test connection. 
+	 * Used by testclass to test connection.
 	 * @return true if method finishes (connection opens and closes)
 	 */
 	public boolean testConnection(){
@@ -363,8 +479,8 @@ public class Database {
 			close();
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Connects to database
 	 */
@@ -383,10 +499,10 @@ public class Database {
 			  } catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			  } 
+			  }
 	}
-	
-	
+
+
 	/**
 	 * Closes database connection
 	 */
@@ -399,8 +515,13 @@ public class Database {
 		    }
 		  }
 	}
+<<<<<<< Updated upstream
 	
 
+=======
+
+/*
+>>>>>>> Stashed changes
 	/**
 	 * testing method.
 	 */
@@ -410,5 +531,10 @@ public class Database {
 		
 		
 	}
+<<<<<<< Updated upstream
 
 }
+=======
+*/
+}
+>>>>>>> Stashed changes
