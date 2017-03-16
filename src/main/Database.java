@@ -45,6 +45,38 @@ public class Database {
 	
 	//----------------GET SHIT------------------------
 	
+	public String[] getStyrkeOvelser(){
+		try {
+			connect();
+			Statement s = con.createStatement();
+			String query = "SELECT øvelse_ID navn beskrivelse FROM øvelse WHERE øvelse_ID IN (SELECT kondisjons_ID FROM øvelse_kondisjon)";
+			ResultSet rs = s.executeQuery(query);
+			ArrayList<String> returnList = new ArrayList<String>();
+			while (rs.next()) returnList.add(rs.getString(1));
+			return (String[]) returnList.toArray();
+			} catch (SQLException e) {e.printStackTrace();
+			} finally {
+				close();
+			}
+			return null;
+	}
+	
+	public String[] getKondisOvelser(){
+		try {
+			connect();
+			Statement s = con.createStatement();
+			String query = "SELECT øvelse_ID navn beskrivelse FROM øvelse WHERE øvelse_ID IN (SELECT kondisjons_ID FROM øvelse_kondisjon)";
+			ResultSet rs = s.executeQuery(query);
+			ArrayList<String> returnList = new ArrayList<String>();
+			while (rs.next()) returnList.add(rs.getString(1));
+			return (String[]) returnList.toArray();
+			} catch (SQLException e) {e.printStackTrace();
+			} finally {
+				close();
+			}
+			return null;
+	}
+	
 	public String[] getKondisjonsTips(){
 		try {
 			connect();
