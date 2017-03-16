@@ -185,8 +185,22 @@ public class Treningsdagbok {
 
 
 	private void fåTips() {
-		// TODO Auto-generated method stub
+		int minØkt = Sork();
+		String[] tipsListe;
+		if(minØkt == 0) {
+			tipsListe = db.getKondisjonsTips();
+			System.out.println("Liste med tips fra tidligere kondisjonsøkter:");
+			System.out.println("_____________________________________________");
+		}
+		else {
+			System.out.println("Liste med tips fra tidligere styrkeøkter:");
+			System.out.println("_________________________________________");
+			tipsListe = db.getStyrkeTips();
+		}
 		
+		for (String streng : tipsListe){
+			System.out.println(streng);
+		}
 	}
 	
 }
