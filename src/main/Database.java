@@ -43,11 +43,39 @@ public class Database {
 	
 	
 	//----------------GET SHIT------------------------
+	
+	
+	public String[] getPuls(String treningsID){
+		return getList(PULS, "treningsøkt_ID", treningsID, "*");
+	}
+	
+	public String[] getNotat(String treningsID){
+		return getList(NOTAT,"treningsøkt_ID", treningsID, "*");
+	}
+	
+	
+	public List<String> getMaler() {
+		try {
+			connect();
+			Statement s = con.createStatement();
+			String query = "SELECT Mal_ID navn FROM "+TRENINGSØKTMAL.split("(")[0]+";";
+			ResultSet rs = s.executeQuery(query);
+			ArrayList<String> returnList = new ArrayList<String>();
+			while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
+			return returnList;
+			} catch (SQLException e) {e.printStackTrace();
+			} finally {
+				close();
+			}
+			return null;
+	}
+	
+	
 	public List<String> getØvelser(){
 		try {
 		connect();
 		Statement s = con.createStatement();
-		String query = "SELECT øvelse_ID navn FROM "+ØVELSE+";";
+		String query = "SELECT øvelse_ID navn FROM "+ØVELSE.split("(")[0]+";";
 		ResultSet rs = s.executeQuery(query);
 		ArrayList<String> returnList = new ArrayList<String>();
 		while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
@@ -59,11 +87,27 @@ public class Database {
 		return null;
 	}
 	
+	public List<String> getØvelser(String treningsID){
+		try {
+			connect();
+			Statement s = con.createStatement();
+			String query = "SELECT øvelse_ID navn FROM "+ØVELSE.split("(")[0]+" WHERE trenings_ID= "+treningsID+";";
+			ResultSet rs = s.executeQuery(query);
+			ArrayList<String> returnList = new ArrayList<String>();
+			while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
+			return returnList;
+			} catch (SQLException e) {e.printStackTrace();
+			} finally {
+				close();
+			}
+			return null;
+	}
+	
 	public List<String> getØkter(){
 		try {
 		connect();
 		Statement s = con.createStatement();
-		String query = "SELECT treningsøkt_ID FROM "+TRENINGSØKT+";";
+		String query = "SELECT treningsøkt_ID FROM "+TRENINGSØKT.split("(")[0]+";";
 		ResultSet rs = s.executeQuery(query);
 		ArrayList<String> returnList = new ArrayList<String>();
 		while (rs.next()) returnList.add(rs.getString(1));
@@ -83,7 +127,7 @@ public class Database {
 		try {
 		connect();
 		Statement s = con.createStatement();
-		String query = "SELECT * FROM "+NOTAT+" WHERE treningsøkt_ID="+treningsøktID+";";
+		String query = "SELECT * FROM "+NOTAT.split("(")[0]+" WHERE treningsøkt_ID="+treningsøktID+";";
 		ResultSet rs = s.executeQuery(query);
 		ArrayList<String> returnList = new ArrayList<String>();
 		while (rs.next()) returnList.add(rs.getString(1)); returnList.add(rs.getString(2));
@@ -98,7 +142,41 @@ public class Database {
 	
 	
 	
-	// ------------------LAGE ØKTER-----------------------
+	/*****************************************************
+	 * 
+	 * LAGE ØKTER
+	 * 
+	 * 
+	 *****************************************************/
+	
+	public void settPulsData(String treningsøkt_ID, String puls, String lengdegrad, String breddegrad,String moh,String tid){
+		insert(PULS, new String[]{treningsøkt_ID, puls, lengdegrad, breddegrad, moh, tid});
+	}
+	
+	public void lagNotat(String treningsID, String tips,String formål){
+		insert(NOTAT,new String[] {tips, formål,treningsID});
+	}
+	
+	public void lagMal(String treningsID, String navn){
+		insert(TRENINGSØKTMAL, new String[] {navn});
+		List<String> maler = getMaler();
+		String malID = maler.get(maler.size()-2);
+		insert(LAGDUTFRA, new String[] {treningsID,malID});
+		List<String> øvelser = getØvelser(treningsID);
+		for(int i=0;i<øvelser.size();i+=2) insert(MALHARØVELSE,  new String[] {malID,øvelser.get(i)});
+	}
+
+	
+	public void lagStyrkeØvelse(String navn, String beskrivelse, String repetisjoner, String sett){
+		String id = lagØvelse(navn, beskrivelse);
+		insert(ØVELSE_S, new String[] {id,repetisjoner, sett});
+	}
+	
+	public void lagKondisjonsØvelse(String navn, String beskrivelse, String lengde, String tid){
+		String id = lagØvelse(navn, beskrivelse);
+		insert(ØVELSE_K, new String[] {id, lengde, tid});
+	}
+
 	public void lagStyrkeØkt(String dato, String tidspunkt, String varighet, String dagsform, String[] øvelser, String[] resultater){
 		String treningsID = lagTrening(dato, tidspunkt, varighet, dagsform);
 		if(øvelser.length==resultater.length){
@@ -134,18 +212,24 @@ public class Database {
 	
 	private String lagØvelse(String navn, String beskrivelse){
 		insert(ØVELSE, new String[] {navn, beskrivelse});
-		List<String> økter = getØvelser();
-		String treningsID = økter.get(økter.size()-2);
-		return treningsID;
+		List<String> øvelser = getØvelser();
+		String øvelsesID = øvelser.get(øvelser.size()-2);
+		return øvelsesID;
 	}
 	
+
 	
 	
 	
 	
-	
-	
-	//---------------------Metoder fra PU-----------------------------------
+	/*************************************************************************
+	---------------------Metoder fra PU-----------------------------------
+	 * 
+	 * 
+	 * 
+	 * @param tableName
+	 * @param args
+	 **************************************************************************/
 
 	public void insert(String tableName, String[] args){
 		try{
